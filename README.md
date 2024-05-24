@@ -46,4 +46,4 @@ python app.py
 - This project is licensed under the MIT License - see the LICENSE.md file for details.
 
 ## Acknowledgments
-Thanks to the creators of the Stable Diffusion model for their groundbreaking work in AI.
+- Thanks to the creators of the Stable Diffusion model for their groundbreaking work in AI.
