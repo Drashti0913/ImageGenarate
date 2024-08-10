@@ -1,0 +1,87 @@
+!pip install transformers
+
+from transformers import pipeline
+from diffusers import DiffusionPipeline
+
+# Assuming `text_to_image_pipeline` is your initialized pipeline variable
+# It should be initialized similar to this:
+text_to_image_pipeline = DiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4")
+
+from diffusers import AutoPipelineForText2Image
+import torch
+
+# Initialize your pipeline here (ensure you've installed and imported necessary libraries)
+# For demonstration, let's assume you've already initialized `text_to_image_pipeline`
+
+# Define your text prompt
+text_prompt = "A scenic view of the mountains at sunset, with a clear sky"
+
+# Generate an image using the pipeline
+# The correct approach is to directly call the pipeline with the text prompt, and then access the generated images attribute
+output = text_to_image_pipeline(prompt=text_prompt)
+
+# Accessing the first generated image from the output
+generated_image = output.images[0]
+
+# Display the image
+# If you're in a Jupyter notebook or Google Colab, you can display the image directly using IPython.display
+from IPython.display import display
+display(generated_image)
+!pip install diffusers
+
+stable-diffusion-v1-5
+from diffusers import AutoPipelineForText2Image
+import torch
+
+pipeline = AutoPipelineForText2Image.from_pretrained(
+	"runwayml/stable-diffusion-v1-5", torch_dtype=torch.float16, variant="fp16"
+).to("cuda")
+image = pipeline(
+	"Astronaut in a jungle, cold color palette, muted colors, detailed, 8k", height=768, width=512
+).images[0]
+image
+Stable Diffusion XL
+from diffusers import AutoPipelineForText2Image
+import torch
+
+pipeline = AutoPipelineForText2Image.from_pretrained(
+    "stabilityai/stable-diffusion-xl-base-1.0", torch_dtype=torch.float16, variant="fp16"
+).to("cuda")
+generator = torch.Generator("cuda").manual_seed(31)
+image = pipeline("Astronaut in a jungle, cold color palette, muted colors, detailed, 8k", generator=generator).images[0]
+image
+Kandinsky 2.2
+from diffusers import AutoPipelineForText2Image
+import torch
+pipeline = AutoPipelineForText2Image.from_pretrained(
+	"kandinsky-community/kandinsky-2-2-decoder", torch_dtype=torch.float16
+).to("cuda")
+generator = torch.Generator("cuda").manual_seed(31)
+image = pipeline("Astronaut in a jungle, cold color palette, muted colors, detailed, 8k", generator=generator).images[0]
+image
+from diffusers import ControlNetModel, AutoPipelineForText2Image
+from diffusers.utils import load_image
+import torch
+
+controlnet = ControlNetModel.from_pretrained(
+	"lllyasviel/control_v11p_sd15_openpose", torch_dtype=torch.float16, variant="fp16"
+).to("cuda")
+pose_image = load_image("https://huggingface.co/lllyasviel/control_v11p_sd15_openpose/resolve/main/images/control.png")
+pipeline = AutoPipelineForText2Image.from_pretrained(
+	"runwayml/stable-diffusion-v1-5", controlnet=controlnet, torch_dtype=torch.float16, variant="fp16"
+).to("cuda")
+generator = torch.Generator("cuda").manual_seed(31)
+image = pipeline("Astronaut in a jungle, cold color palette, muted colors, detailed, 8k", image=pose_image, generator=generator).images[0]
+image
+from diffusers import AutoPipelineForText2Image
+import torch
+
+pipeline = AutoPipelineForText2Image.from_pretrained(
+	"runwayml/stable-diffusion-v1-5", torch_dtype=torch.float16, variant="fp16"
+).to("cuda")
+
+image = pipeline(
+	"Astronaut on a horse", height=512, width=512
+).images[0]
+image
+
